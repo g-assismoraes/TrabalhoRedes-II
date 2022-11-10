@@ -1,3 +1,5 @@
+# IP do João: 200.202.108.62
+
 import socket
 
 HOST = "127.0.0.1"  # The server's hostname or IP address
