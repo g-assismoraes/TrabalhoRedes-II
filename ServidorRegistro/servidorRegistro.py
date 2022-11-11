@@ -3,6 +3,8 @@ import socket
 class ServidorRegistro():
     def __init__(self):
         self.HOST = "127.0.0.1"  # The server's hostname or IP address
+        #self.HOST = socket.gethostbyname(socket.gethostname())
+        print(self.HOST)
         self.PORT = 5000  # The port used by the server
         self.tabela_registros = dict()
     
@@ -14,21 +16,6 @@ class ServidorRegistro():
         server.listen()
 
     def open_con(self):
-        # connected = True
-        # while connected:
-        # msg_length = conn.recv(HEADER).decode(FORMAT)
-        # if msg_length:
-        #     msg_length = int(msg_length)
-        #     msg = conn.recv(msg_length).decode(FORMAT)
-        #     if msg == DISCONNECT_MESSAGE:
-        #         connected = False
-
-        #     print(f"[{addr}] {msg}")
-        #     conn.send("Msg received".encode(FORMAT))
-
-        # conn.close()
-
-
         connected = True
         while connected:
             conn, addr = self.server.accept()
@@ -53,4 +40,5 @@ class ServidorRegistro():
 
 if "__main__":
     server = ServidorRegistro()
+    server.start()
     server.open_con()
