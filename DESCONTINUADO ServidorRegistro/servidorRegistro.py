@@ -2,9 +2,9 @@ import socket
 
 class ServidorRegistro():
     def __init__(self):
-        self.HOST = "127.0.0.1"  # The server's hostname or IP address
-        #self.HOST = socket.gethostbyname(socket.gethostname())
-        print(self.HOST)
+        #self.HOST = "127.0.0.1"  # The server's hostname or IP address
+        self.HOST = socket.gethostbyname(socket.gethostname())
+        print("[SERVIDOR INICIADO] IP: ", self.HOST)
         self.PORT = 5000  # The port used by the server
         self.tabela_registros = dict()
     
