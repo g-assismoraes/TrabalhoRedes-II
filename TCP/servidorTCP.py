@@ -37,32 +37,40 @@ class ServidorRegistro():
             if len(data) > 0:
 
                 data_decoded = data.decode(self.FORMAT)
+                
+                print()
+                print("--------------------------")
+                print("MENSAGEM RECEBIDA:")
+                print(data_decoded)
+                print("--------------------------")
+                print()
 
-                if data_decoded == self.DISCONNECT_FLAG:
+                msg = list(data_decoded.split(' '))
+                if msg[0] == "GET":
+                    self.sendAdress(msg[1], conn)
+                elif msg[0] == "REGISTER":
+                    self.addOnRegisterTable(msg, conn)
+                elif msg[0] == "DISCONNECT":
                     conn.send(f"[SERVIDOR DESCONECTADO] Usuario encerrou conexao!".encode(self.FORMAT))
+                    if msg[1] in self.tabela_registros.keys():
+                        r = self.tabela_registros.pop(msg[1], "Error")
                     connected = False
                 else:
-                    msg = list(data_decoded.split(' '))
-                    if msg[0] == "GET":
-                        self.sendAdress(msg[1], conn)
-                    elif len(msg) == 3:
-                        self.addOnRegisterTable(msg, conn)
-                    else:
-                        print("Mensagem com formato invalido recebida!")
+                    print("Mensagem com formato invalido recebida!")
 
         conn.close()
     
     def sendAdress(self, name, conn):
         if not name in self.tabela_registros.keys():
-            conn.send(f"[FALHA] Nao ha esse nome nos registros!".encode(self.FORMAT))
+            conn.send(f"[FALHA] Nao existe esse nome nos registros!".encode(self.FORMAT))
             return
         conn.send(f"[SUCESSO] {self.tabela_registros[name]}".encode(self.FORMAT))
 
 
     def addOnRegisterTable(self, msg, conn):
-        if msg[0] not in self.tabela_registros.keys():
-            self.tabela_registros[msg[0]] = (str(msg[1]), str(msg[2]))
-            conn.send(f"[REGISTRO] Dados {self.tabela_registros[msg[0]]} recebidos, {msg[0]}!".encode(self.FORMAT))
+        if msg[1] not in self.tabela_registros.keys():
+            self.tabela_registros[msg[1]] = (str(msg[2]), str(msg[3]))
+            conn.send(f"[REGISTRO] Dados {self.tabela_registros[msg[1]]} recebidos, {msg[1]}!".encode(self.FORMAT))
             print(self.tabela_registros)
         else:
             conn.send(f"[FALHA NO REGISTRO] Usuario ja existente!".encode(self.FORMAT))

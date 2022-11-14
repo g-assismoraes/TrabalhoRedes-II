@@ -3,9 +3,9 @@ import socket
 class ClientTCP():
     def __init__(self):
         self.HEADER = 1024
+        self.name = "Mario"
         self.UDP_PORT = 6000
         self.FORMAT = 'utf-8'
-        self.DISCONNECT_MESSAGE = "!DISCONNECT"
         self.UDP_HOST = socket.gethostbyname(socket.gethostname())
         self.UDP_ADDRESS = (self.UDP_HOST, self.UDP_PORT)
 
@@ -24,7 +24,7 @@ class ClientTCP():
         print(self.client.recv(self.HEADER).decode(self.FORMAT))
     
     def close(self):
-        cliente.send(cliente.DISCONNECT_MESSAGE)
+        cliente.send(f"DISCONNECT {self.name}")
         print(self.client.recv(self.HEADER).decode(self.FORMAT))
     
     def fetchOtherUserAdress(self, name):
@@ -34,14 +34,14 @@ class ClientTCP():
         resp = self.client.recv(self.HEADER).decode(self.FORMAT)
         
         if "SUCESSO" in resp:
-            self.ADRESS_TO_CALL = list(resp.split("]"))[1]
-            print(self.ADRESS_TO_CALL)
-        print(resp)
-
+            tratar = list(resp.split("]"))[1]
+            aux = tratar[1:len(tratar)-1].split(",")
+            self.ADRESS_TO_CALL = [ aux[0][2:len(aux[0])-1], aux[1][2:len(aux[1])-1]]
+            
 if '__main__':
     cliente = ClientTCP()
     cliente.start()
-    cliente.send(f"Gabriel {cliente.UDP_HOST} {cliente.UDP_PORT}")
+    cliente.send(f"REGISTER {cliente.name} {cliente.UDP_HOST} {cliente.UDP_PORT}")
 
     isAlive = True
     while isAlive:
