@@ -1,13 +1,14 @@
 import socket 
 import threading
+import keyboard
 
 
 class ServidorRegistro():
     def __init__(self):
         self.HEADER = 64
         self.PORT = 5000
-        self.HOST = "127.0.0.1"  # The server's hostname or IP address
-        #self.HOST = socket.gethostbyname(socket.gethostname())
+        #self.HOST = "127.0.0.1"  # The server's hostname or IP address
+        self.HOST = socket.gethostbyname(socket.gethostname())
         self.ADDRESS = (self.HOST, self.PORT)
         self.FORMAT = 'utf-8'
         self.DISCONNECT_FLAG = "!DISCONNECT"

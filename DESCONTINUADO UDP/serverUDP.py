@@ -1,9 +1,6 @@
 import socket
 import pyaudio
 import threading
-from os import system
-
-system('clear')
 
 # Socket
 host = socket.gethostbyname(socket.gethostname())
