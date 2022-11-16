@@ -46,7 +46,6 @@ class ServidorUDP():
                 self.STREAM.close() #para de ouvir
                 self.app_client.finish_stream() #para de transmitir
             elif (b'SUPERCONV' in data) and self.isCallOn == False:
-                print("AQUIIIIIIII")
                 self.start_listener()
                 data_decoded = data.decode(self.FORMAT)
                 msgs = list(data_decoded.split(' '))
@@ -84,7 +83,6 @@ class ServidorUDP():
 
     def listen(self, voice_data):
         try:
-            print("recebendo")
             self.STREAM.write(voice_data)
         except socket.error as error:
             print(str(error))
