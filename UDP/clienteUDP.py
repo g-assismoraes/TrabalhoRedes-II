@@ -76,12 +76,12 @@ class ClientUDP():
             self.sending = True
             while self.sending:
                 if keyboard.is_pressed(']'):
+                    self.client.sendto(b"ENCERRAR", self.PAIR_UDP_ADDRESS)
+                    self.client.sendto(b"ENCERRAR", self.MY_ADRESS)
                     print("CLIENTEUDP> encerrando chamada...")
                     print()
                     self.STREAM.close()
                     self.streaming = False
-                    self.client.sendto(b"ENCERRAR", self.PAIR_UDP_ADDRESS)
-                    self.client.sendto(b"ENCERRAR", self.MY_ADRESS)
                     self.sending = False
             
                 if self.streaming:

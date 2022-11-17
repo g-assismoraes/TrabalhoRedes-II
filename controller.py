@@ -22,10 +22,10 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
                 print()
                 print("Digite [0]Encerrar [1]Solicitar Endereço: \n")
                 printIsLocked = True
-            if keyboard.is_pressed('0'): #flag == -1:
+            if keyboard.is_pressed('0'):
                 addrGetter.close()
                 isOnline = False
-            elif keyboard.is_pressed('1'): #flag == 1:
+            elif keyboard.is_pressed('1'): 
                 print()
                 n = input("Digite o nome de quem deseja saber o endereço: ")
                 addrToCall = addrGetter.fetchOtherUserAdress(n)
@@ -42,10 +42,10 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
     sys.exit()
 
 if '__main__':
-    my_name = "gabriel"
+    my_name = "joao"
     my_addr = socket.gethostbyname(socket.gethostname())
     my_port = 6000
-    server_ip = '192.168.0.6'
+    server_ip = '192.168.0.6' #<<<<<<<<<<<<<<==========mudar aqui
 
     recorder = clienteUDP.ClientUDP(my_name, my_port, my_addr)
     recorder.start_socket()

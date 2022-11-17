@@ -61,13 +61,13 @@ class ServidorUDP():
                     print()
 
                     try:
-                        r = int(input("[Y]Atender [N]Recusar: "))
+                        r = input("[Y]Atender [N]Recusar: ")
                     except:
-                        r = 2
+                        r = 'N'
                     
                     self.setPair(msgs[1], addr[1], addr[0])
                     self.PAIR_SERVER_ADRESS = (msgs[2], msgs[3])
-                    if r == 1:
+                    if r.upper() == "Y":
                         self.server.sendto(f'ACEITO'.encode(self.FORMAT), self.PAIR_UDP_ADDRESS)
                         self.isCallOn = True
                         self.start_listener()
