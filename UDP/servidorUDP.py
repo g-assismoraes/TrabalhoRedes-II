@@ -26,6 +26,7 @@ class ServidorUDP():
         self.PAIR_SERVER_ADRESS = ()
 
         # Audio
+        self.STREAM = None
         self.AUDIO = pyaudio.PyAudio()
         self.CHUNK = int(1024 * 10)
     
@@ -42,7 +43,8 @@ class ServidorUDP():
                 self.isCallOn = False
                 self.PAIR_UDP_ADDRESS = ()
                 self.PAIR_SERVER_ADRESS = ()
-                self.STREAM.close() #para de ouvir
+                if self.STREAM != None:self.STREAM.close() #para de ouvir
+                self.STREAM=None
                 self.app_client.finish_stream() #para de transmitir
             elif (b'SUPERCONV' in data) and self.isCallOn == False:
                 self.start_listener()
@@ -86,6 +88,7 @@ class ServidorUDP():
         except socket.error as error:
             print(str(error))
             self.STREAM.close()
+            self.STREAM=None
             self.server.close()
 
     def start_server(self):
@@ -104,7 +107,7 @@ class ServidorUDP():
                 thread = threading.Thread(target=self.serve_client, args=(data, addr))
                 thread.daemon = True
                 thread.start()
-            elif self.isCallOn and addr == self.PAIR_UDP_ADDRESS:
+            elif self.isCallOn and addr == self.PAIR_UDP_ADDRESS and self.STREAM != None:
                 self.listen(data)
 
 # if "__main__":

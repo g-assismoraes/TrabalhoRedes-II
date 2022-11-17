@@ -43,9 +43,9 @@ def start_recorder(my_name, my_addr, my_port, recorder):
             else: pass
 
 if '__main__':
-    my_name = "Gabriel"
+    my_name = "pao"
     my_addr = socket.gethostbyname(socket.gethostname())
-    my_port = 6001
+    my_port = 6002
 
     recorder = clienteUDP.ClientUDP(my_name, my_port, my_addr)
     recorder.start_socket()
