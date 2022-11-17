@@ -22,10 +22,10 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
                 print()
                 print("Digite [0]Encerrar [1]Solicitar Endereço: \n")
                 printIsLocked = True
-            if keyboard.is_pressed('3'): #flag == -1:
+            if keyboard.is_pressed('0'): #flag == -1:
                 addrGetter.close()
                 isOnline = False
-            elif keyboard.is_pressed('4'): #flag == 1:
+            elif keyboard.is_pressed('1'): #flag == 1:
                 print()
                 n = input("Digite o nome de quem deseja saber o endereço: ")
                 addrToCall = addrGetter.fetchOtherUserAdress(n)
