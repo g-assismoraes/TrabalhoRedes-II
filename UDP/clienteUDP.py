@@ -58,7 +58,7 @@ class ClientUDP():
     
     def finish_stream(self):
         self.streaming = False
-        self.run=False
+        self.sending=False
         if self.STREAM.is_active:
             self.STREAM.close()
     
@@ -73,17 +73,16 @@ class ClientUDP():
         try:
             print('CLIENTEUDP> Recording!')
             print()
-            self.run = True
-            while self.run:
-                if keyboard.is_pressed(';'):
+            self.sending = True
+            while self.sending:
+                if keyboard.is_pressed(']'):
                     print("CLIENTEUDP> encerrando chamada...")
                     print()
-                    print(self.PAIR_UDP_ADDRESS)
                     self.STREAM.close()
                     self.streaming = False
                     self.client.sendto(b"ENCERRAR", self.PAIR_UDP_ADDRESS)
                     self.client.sendto(b"ENCERRAR", self.MY_ADRESS)
-                    self.run = False
+                    self.sending = False
             
                 if self.streaming:
                     voice_data = self.STREAM.read(self.CHUNK, exception_on_overflow=False)

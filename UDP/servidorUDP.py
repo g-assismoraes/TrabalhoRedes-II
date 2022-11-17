@@ -5,14 +5,14 @@ import keyboard
 
 
 class ServidorUDP():
-    def __init__(self, name, port, flag, app_client):
+    def __init__(self, name, port, app_client):
         self.MY_NAME = name
         self.MY_UDP_PORT = port
         self.MY_UDP_HOST = socket.gethostbyname(socket.gethostname())
         self.MY_ADRESS = (self.MY_UDP_HOST, self.MY_UDP_PORT)
 
         self.FORMAT = 'utf-8'
-        self.isAlive = flag
+        self.isAlive = True
         self.BUFFER = 2048 * 10
 
         self.isCallOn = False
@@ -59,7 +59,12 @@ class ServidorUDP():
                 if "CONVITE" in data_decoded and self.PAIR_SERVER_ADRESS == ():
                     print(f'SERVERUDP> {self.MY_NAME}, {msgs[1]} te liga!')
                     print()
-                    r = int(input("[1]Atender [2]Recusar: "))
+
+                    try:
+                        r = int(input("[Y]Atender [N]Recusar: "))
+                    except:
+                        r = 2
+                    
                     self.setPair(msgs[1], addr[1], addr[0])
                     self.PAIR_SERVER_ADRESS = (msgs[2], msgs[3])
                     if r == 1:
@@ -95,10 +100,6 @@ class ServidorUDP():
         self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server.bind(self.MY_ADRESS)
 
-        # print(f"[SERVIDOR INICIADO] Servidor no IPV4: {self.MY_UDP_HOST}")
-        # print()
-
-        #TODO:matar ele em algum momento
         while self.isAlive:
             data, addr = self.server.recvfrom(self.CHUNK)
             if (b'CONVITE' in data) or (b'ENCERRAR' in data) or (b'SUPERCONV' in data): #tratar
