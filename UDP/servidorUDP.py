@@ -23,6 +23,7 @@ class ServidorUDP():
         self.FORMAT = 'utf-8'
         self.PAIR_UDP_HOST = socket.gethostbyname(socket.gethostname())
         self.PAIR_UDP_ADDRESS = ()
+        self.PAIR_SERVER_ADRESS = ()
 
         # Audio
         self.AUDIO = pyaudio.PyAudio()
@@ -33,8 +34,6 @@ class ServidorUDP():
         self.PAIR_UDP_PORT = port
         self.PAIR_UDP_HOST = ip 
         self.PAIR_UDP_ADDRESS = (ip, port)
-
-        self.PAIR_SERVER_ADRESS = ()
     
     def serve_client(self, data, addr):
 
@@ -55,7 +54,7 @@ class ServidorUDP():
             elif len(data) > 0:
                 data_decoded = data.decode(self.FORMAT)
                 msgs = list(data_decoded.split(' '))
-                if "CONVITE" in data_decoded and self.PAIR_UDP_ADDRESS == ():
+                if "CONVITE" in data_decoded and self.PAIR_SERVER_ADRESS == ():
                     print(f'SERVERUDP> {self.MY_NAME}, {msgs[1]} te liga!')
                     print()
                     r = int(input("[1]Atender [2]Recusar: "))
@@ -88,9 +87,6 @@ class ServidorUDP():
             print(str(error))
             self.STREAM.close()
             self.server.close()
-        except KeyboardInterrupt:
-            self.STREAM.close()
-            self.server.close()
 
     def start_server(self):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -99,6 +95,7 @@ class ServidorUDP():
         # print(f"[SERVIDOR INICIADO] Servidor no IPV4: {self.MY_UDP_HOST}")
         # print()
 
+        #TODO:matar ele em algum momento
         while self.isAlive:
             data, addr = self.server.recvfrom(self.CHUNK)
             if (b'CONVITE' in data) or (b'ENCERRAR' in data) or (b'SUPERCONV' in data): #tratar

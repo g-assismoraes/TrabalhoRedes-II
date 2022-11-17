@@ -58,31 +58,30 @@ class ClientUDP():
     
     def finish_stream(self):
         self.streaming = False
-        if not self.STREAM.is_active:
+        if self.STREAM.is_active:
             self.STREAM.close()
     
     def start_stream(self):
-        self.streaming = True
         self.STREAM = self.AUDIO.open(format=pyaudio.paInt16,
                             channels=1,
                             rate=44100,
                             input=True,
                             frames_per_buffer=self.CHUNK)
-        
+        self.streaming = True
+
         try:
             print('CLIENTEUDP> Recording!')
             print()
             run = True
             while run:
-                if keyboard.is_pressed('k'):
+                if keyboard.is_pressed(']'):
                     print("CLIENTEUDP> encerrando chamada...")
                     print()
                     print(self.PAIR_UDP_ADDRESS)
                     self.STREAM.close()
                     self.streaming = False
-                    self.client.sendto(f"ENCERRAR".encode(self.FORMAT), self.PAIR_UDP_ADDRESS)
-                    print(self.MY_ADRESS)
-                    self.client.sendto(f"ENCERRAR".encode(self.FORMAT), self.MY_ADRESS)
+                    self.client.sendto(b"ENCERRAR", self.PAIR_UDP_ADDRESS)
+                    self.client.sendto(b"ENCERRAR", self.MY_ADRESS)
                     run = False
             
                 if self.streaming:
@@ -91,9 +90,6 @@ class ClientUDP():
 
         except socket.error as error:
             print(str(error))
-            self.STREAM.close()
-            self.client.close()
-        except KeyboardInterrupt:
             self.STREAM.close()
             self.client.close()
 
