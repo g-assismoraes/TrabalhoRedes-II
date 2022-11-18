@@ -27,13 +27,12 @@ class ClientTCP():
         #envia a mensagem e espera a resposta
         message = msg.encode(self.FORMAT)
         self.client.send(message)
-        print(f"CLIENTE_TCP> {self.client.recv(self.BUFFER).decode(self.FORMAT)}")
+        print(f"CLIENTE_TCP> Resposta do Servidor: {self.client.recv(self.BUFFER).decode(self.FORMAT)}")
     
     def close(self):
         #envia mensagem ao servidorTCP para de desconectar
         self.send(f"DISCONNECT {self.name}")
-        print(f"CLIENTE_TCP> {self.client.recv(self.BUFFER).decode(self.FORMAT)}")
-    
+       
     def fetchOtherUserAdress(self, name):
         #envia mensagem solicitando o endereço
         if name != self.name: #nao deixa ligar pra si mesmo
@@ -49,5 +48,5 @@ class ClientTCP():
                 aux = tratar[1:len(tratar)-1].split(",")
                 self.ADRESS_TO_CALL = [ aux[0][2:len(aux[0])-1], aux[1][2:len(aux[1])-1]]
                 return self.ADRESS_TO_CALL
-        print("CLIENTE> Você não pode ligar para si mesmo!")
+        else: print("CLIENTE_TCP> Você não pode ligar para si mesmo!")
         return None

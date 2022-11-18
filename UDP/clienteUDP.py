@@ -50,11 +50,11 @@ class ClientUDP():
 
 
         if "ACEITO" in answer:
-            print(f"CLIENTEUDP> {answer}")
+            print(f"CLIENTE_UDP> {answer}")
             print()
             self.start_stream()
         else: 
-            print("CLIENTEUDP> Usuario destino ocupado!")
+            print("CLIENTE_UDP> Usuario destino ocupado!")
             print()
     
     def finish_stream(self):
@@ -73,12 +73,12 @@ class ClientUDP():
         self.streaming = True
 
         try:
-            print('CLIENTEUDP> Chmada inicializada! Digite "]" para encerrar.')
+            print('CLIENTE_UDP> Chmada inicializada! Digite "]" para encerrar.')
             print()
             self.sending = True
             while self.sending:
                 if keyboard.is_pressed(']'):
-                    print("CLIENTEUDP> encerrando chamada...")
+                    print("CLIENTE_UDP> encerrando chamada...")
                     print()
                     self.STREAM.close()
                     self.streaming = False

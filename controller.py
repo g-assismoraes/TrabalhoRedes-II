@@ -23,7 +23,7 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
         if not recorder.streaming:
             if not printIsLocked:
                 print()
-                print("Digite [0]Encerrar [1]Solicitar Endereço: \n")
+                print("Digite [0]Encerrar [1]Solicitar Endereço:")
                 printIsLocked = True
             if keyboard.is_pressed('0'):
                 addrGetter.close()
@@ -45,10 +45,10 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
     sys.exit()
 
 if '__main__':
-    my_name = "gabriel"
+    my_name = input("Digite o seu nome: ")
     my_addr = socket.gethostbyname(socket.gethostname())
     my_port = 6000
-    server_ip = '192.168.0.5' #<<<<<<<<<<<<<<========== mudar aqui de acordo com o ip em que o server tcp esta
+    server_ip = input("Digite o endereço IPV4 do Servidor TCP: ")
 
     #inicializa o clienteUDP, que será quem fará as gravações
     recorder = clienteUDP.ClientUDP(my_name, my_port, my_addr)

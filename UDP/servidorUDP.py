@@ -68,7 +68,7 @@ class ServidorUDP():
 
                 if "CONVITE" in data_decoded and self.PAIR_SERVER_ADRESS == (): #recebeu um convite
 
-                    print(f'SERVERUDP> {self.MY_NAME}, {msgs[1]} te liga!')
+                    print(f'SERVIDOR_UDP> {self.MY_NAME}, {msgs[1]} te liga!')
                     print()
 
                     try:
@@ -119,7 +119,7 @@ class ServidorUDP():
         while self.isAlive:
             data, addr = self.server.recvfrom(self.CHUNK)
             if (b'CONVITE' in data) or (b'ENCERRAR' in data) or (b'CALLBACK' in data): #se for uma mensagem tratavel
-                print(f"SERVIDORUDP> {data}")
+                print(f"SERVIDOR_UDP> Uma solicitação chegou: {data} de {addr}")
                 print()
                 thread = threading.Thread(target=self.serve_client, args=(data, addr))
                 thread.daemon = True
