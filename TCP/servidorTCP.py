@@ -20,7 +20,8 @@ class ServidorRegistro():
         self.server.bind(self.ADDRESS)
 
         self.server.listen()
-        print(f"[SERVIDOR INICIADO] Servidor no IPV4: {self.HOST}")
+        print(f"[SERVIDOR INICIADO] Servidor iniciado na porta {self.PORT} no endereço IPV4: {self.HOST}")
+        print("[AGUARDANDO PEDIDO DE CONEXÃO]")
         print()
 
         while self.isAlive:
