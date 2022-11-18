@@ -7,13 +7,16 @@ import threading
 import sys
 
 def start_listener(my_name, my_addr, my_port, app_client):
+    #inicializa o módulo servidor UDP, que ira tratar as solicitacoes e receber e reproduzir o audio
     listener = servidorUDP.ServidorUDP(my_name, my_port, app_client)
     listener.start_server()
 
 def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
+    #inicializa o módulo cliente TCP, que sera o responsavel por solicitar o endereco para se ligar
     addrGetter = clienteTCP.ClientTCP(server_ip, 5000, my_name, my_addr, my_port)
     addrGetter.start()
     addrGetter.send(f"REGISTER {addrGetter.name} {addrGetter.UDP_HOST} {addrGetter.UDP_PORT}")
+
     isOnline = True
     printIsLocked = False
     while isOnline:
@@ -29,7 +32,7 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
                 print()
                 n = input("Digite o nome de quem deseja saber o endereço: ")
                 addrToCall = addrGetter.fetchOtherUserAdress(n)
-                if addrToCall:
+                if addrToCall: #se o clienteTCP conseguiu recuperar um endereco valido, inicia a ligacao
                     recorder.setPair(n, int(addrToCall[1]), addrToCall[0])
                     recorder.sendInvitation()
                     printIsLocked = False
@@ -42,18 +45,21 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
     sys.exit()
 
 if '__main__':
-    my_name = "joao"
+    my_name = "gabriel"
     my_addr = socket.gethostbyname(socket.gethostname())
     my_port = 6000
-    server_ip = '192.168.0.6' #<<<<<<<<<<<<<<==========mudar aqui
+    server_ip = '192.168.0.5' #<<<<<<<<<<<<<<========== mudar aqui de acordo com o ip em que o server tcp esta
 
+    #inicializa o clienteUDP, que será quem fará as gravações
     recorder = clienteUDP.ClientUDP(my_name, my_port, my_addr)
     recorder.start_socket()
 
+    #inicializa a thread que irá cuidar da parte listener, que é o servidorUDP
     thread_serverUDP = threading.Thread(target=start_listener, args=(my_name, my_addr, my_port, recorder))
     thread_serverUDP.daemon = True
     thread_serverUDP.start()
 
+    #inicializa a thread que irá cuidar da parte recorder, que é o clienteUDP
     thread_cliente = threading.Thread(target=start_recorder, args=(my_name, my_addr, my_port, recorder, server_ip))
     thread_cliente.start()
 

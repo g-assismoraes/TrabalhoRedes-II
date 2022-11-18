@@ -4,26 +4,26 @@ import keyboard
 
 class ClientUDP():
     def __init__(self, myname, myport, myhost): 
+        #parametros auxiliares
+        self.BUFFER = 2048 * 10
+        self.streaming = False
+        self.FORMAT = 'utf-8'
+
+        #informacoes de identificacao do meu proprio servidorUDP
         self.MY_NAME = myname
         self.MY_UDP_PORT = myport
         self.MY_UDP_HOST = myhost
         self.MY_ADRESS = (myhost, myport)
 
+        #informacoes de do par que esta em chamada com
         self.PAIR_NAME = ""
         self.PAIR_UDP_PORT = 6000
-        self.FORMAT = 'utf-8'
-        self.PAIR_UDP_HOST = "127.0.0.1" #socket.gethostbyname(socket.gethostname())
+        self.PAIR_UDP_HOST = "" 
         self.PAIR_UDP_ADDRESS = (self.PAIR_UDP_HOST, self.PAIR_UDP_PORT)
 
-        self.BUFFER = 2048 * 10
-
-        self.streaming = False
-
-        # Audio
+        # parametros para a parte de audio
         self.AUDIO = pyaudio.PyAudio()
         self.CHUNK = int(1024 * 4)
-
-        self.pairs = []
 
     def start_socket(self):
         client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -36,8 +36,9 @@ class ClientUDP():
         self.PAIR_UDP_ADDRESS = (ip, port)
     
     def start_call_back(self, name, addr):
+        #envia o comando para fazer a segunda metade da ligacao e iniciar o gravador
         self.setPair(name, int(addr[1]), addr[0])
-        self.client.sendto(f"SUPERCONV {name} {addr[0]} {addr[1]}".encode(self.FORMAT), self.PAIR_UDP_ADDRESS)
+        self.client.sendto(f"CALLBACK {name} {addr[0]} {addr[1]}".encode(self.FORMAT), self.PAIR_UDP_ADDRESS)
         self.start_stream()
 
 
@@ -63,6 +64,7 @@ class ClientUDP():
             self.STREAM.close()
     
     def start_stream(self):
+        #inicializa os parametros de audio
         self.STREAM = self.AUDIO.open(format=pyaudio.paInt16,
                             channels=1,
                             rate=44100,
@@ -71,7 +73,7 @@ class ClientUDP():
         self.streaming = True
 
         try:
-            print('CLIENTEUDP> Recording!')
+            print('CLIENTEUDP> Chmada inicializada! Digite "]" para encerrar.')
             print()
             self.sending = True
             while self.sending:
@@ -92,9 +94,3 @@ class ClientUDP():
             print(str(error))
             self.STREAM.close()
             self.client.close()
-
-# if "__main__":
-#     cliente = ClientUDP("Gabriel", 6000, '127.0.0.1')
-#     cliente.start_socket()
-#     cliente.setPair("Gabriel", 6000, '127.0.0.1')
-#     cliente.sendInvitation()

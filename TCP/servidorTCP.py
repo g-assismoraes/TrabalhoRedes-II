@@ -1,19 +1,18 @@
 import socket 
 import threading
-import keyboard
 
 
 class ServidorRegistro():
     def __init__(self):
-        self.HEADER = 64
-        self.PORT = 5000
-        #self.HOST = "127.0.0.1"  # The server's hostname or IP address
-        self.HOST = socket.gethostbyname(socket.gethostname())
-        self.ADDRESS = (self.HOST, self.PORT)
+        #para parametros auxiliares
         self.FORMAT = 'utf-8'
-        self.DISCONNECT_FLAG = "!DISCONNECT"
         self.tabela_registros = dict()
         self.isAlive = True
+
+        #identificacao
+        self.PORT = 5000
+        self.HOST = socket.gethostbyname(socket.gethostname())
+        self.ADDRESS = (self.HOST, self.PORT)
 
     def start(self):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,6 +30,7 @@ class ServidorRegistro():
             print(f"[CONEXÕES ATIVAS] {threading.active_count()  - 1}")
 
     def serve_client(self, conn, addr):
+        #metodo iniciado para servir as colicitacoes de um cliente:
         print(f"[NOVA CONEXÃO] {addr} conectado.")
 
         connected = True
@@ -54,8 +54,9 @@ class ServidorRegistro():
                     self.addOnRegisterTable(msg, conn)
                 elif msg[0] == "DISCONNECT":
                     conn.send(f"[SERVIDOR DESCONECTADO] Usuario encerrou conexao!".encode(self.FORMAT))
-                    if msg[1] in self.tabela_registros.keys():
-                        r = self.tabela_registros.pop(msg[1], "Error")
+                    if msg[1].upper() in self.tabela_registros.keys():
+                        r = self.tabela_registros.pop(msg[1].upper(), "Error")
+                        print(self.tabela_registros)
                     connected = False
                 else:
                     print("Mensagem com formato invalido recebida!")
@@ -63,21 +64,22 @@ class ServidorRegistro():
         conn.close()
     
     def sendAdress(self, name, conn):
-        if not name in self.tabela_registros.keys():
+        nameUpper = name.upper()
+        if not nameUpper in self.tabela_registros.keys():
             conn.send(f"[FALHA] Nao existe esse nome nos registros!".encode(self.FORMAT))
             return
-        conn.send(f"[SUCESSO] {self.tabela_registros[name]}".encode(self.FORMAT))
+        conn.send(f"[SUCESSO] {self.tabela_registros[nameUpper]}".encode(self.FORMAT))
 
 
     def addOnRegisterTable(self, msg, conn):
-        if msg[1] not in self.tabela_registros.keys():
-            self.tabela_registros[msg[1]] = (str(msg[2]), str(msg[3]))
-            conn.send(f"[REGISTRO] Dados {self.tabela_registros[msg[1]]} recebidos, {msg[1]}!".encode(self.FORMAT))
+        nameUpper = msg[1].upper()
+        if nameUpper not in self.tabela_registros.keys():
+            self.tabela_registros[nameUpper] = (str(msg[2]), str(msg[3]))
+            conn.send(f"[REGISTRO] Dados {self.tabela_registros[nameUpper]} recebidos, {msg[1]}!".encode(self.FORMAT))
             print(self.tabela_registros)
         else:
             conn.send(f"[FALHA NO REGISTRO] Usuario ja existente!".encode(self.FORMAT))
     
-    #TODO: achar o momento pra chamar isso
     def kill_server(self):
         self.isAlive = False
         
