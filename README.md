@@ -60,4 +60,4 @@ Caso o nome solicitado não conste na tabela de registro do servidor o remetente
   
 <h6>ENCERRAR CONEXÃO</h6>
 <li>Enquanto o usuário não estiver em uma chamada, a conexão pode ser encerrada através do dígito 0.
-<li>Enquanto o usuário estiver em uma chamada, a conexão pode ser encerrada através da tecla indicada no início da conexão. </ br>
+<li>Enquanto o usuário estiver em uma chamada, a conexão pode ser encerrada através da tecla indicada no início da conexão. <br />
