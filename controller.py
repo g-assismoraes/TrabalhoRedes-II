@@ -23,7 +23,7 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
         if not recorder.streaming:
             if not printIsLocked:
                 print()
-                print("Digite [0]Encerrar [1]Solicitar Endereço:")
+                print("Pressione [0]Encerrar [1]Solicitar Endereço:")
                 printIsLocked = True
             if keyboard.is_pressed('0'):
                 addrGetter.close()
