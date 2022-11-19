@@ -50,7 +50,7 @@ Após o registro, o usuário deverá informar se deseja encerrar a conexão[^1] 
   
 <h6>CONSULTA DE REGISTRO</h6>
 
-Após digitar um nome que conste na tabela de registro do servidor, será enviada uma mensagem ao destinatário solicitando uma conexão UDP entre elesservidor [^3].  
+Após digitar um nome que conste na tabela de registro do servidor e esse enviar uma resposta bem sucedida, será enviada uma mensagem ao destinatário solicitando uma conexão UDP entre eles. [^3].  
 
 [^3]: Para aceitar, o destinatário deverá responder com a tecla Y, do contrário, com a tecla N.
   
@@ -60,5 +60,5 @@ Caso o nome solicitado não conste na tabela de registro do servidor o remetente
   
 <h6>ENCERRAR CONEXÃO</h6>
 <li>Enquanto o usuário não estiver em uma chamada, a conexão pode ser encerrada através do dígito 0.
-<li>Enquanto o usuário estiver em uma chamada, a conexão pode ser encerrada através da tecla indicada no início da conexão. 
+<li>Enquanto o usuário estiver em uma chamada, essa deve ser encerrada primeiro por meio da tecla indicada no início para então se encerrar a conexão. 
 <p> </p>
