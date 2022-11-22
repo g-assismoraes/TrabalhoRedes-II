@@ -73,7 +73,7 @@ class ClientUDP():
         self.streaming = True
 
         try:
-            print('CLIENTE_UDP> Chmada inicializada! Digite "]" para encerrar.')
+            print('CLIENTE_UDP> Chamada inicializada! Digite "]" para encerrar.')
             print()
             self.sending = True
             while self.sending:

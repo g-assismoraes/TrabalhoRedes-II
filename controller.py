@@ -47,7 +47,7 @@ def start_recorder(my_name, my_addr, my_port, recorder, server_ip):
 if '__main__':
     my_name = input("Digite o seu nome: ")
     my_addr = socket.gethostbyname(socket.gethostname())
-    my_port = 6000
+    my_port = 6001
     server_ip = input("Digite o endereço IPV4 do Servidor TCP: ")
 
     #inicializa o clienteUDP, que será quem fará as gravações

@@ -48,5 +48,4 @@ class ClientTCP():
                 aux = tratar[1:len(tratar)-1].split(",")
                 self.ADRESS_TO_CALL = [ aux[0][2:len(aux[0])-1], aux[1][2:len(aux[1])-1]]
                 return self.ADRESS_TO_CALL
-        else: print("CLIENTE_TCP> Você não pode ligar para si mesmo!")
         return None
