@@ -13,7 +13,8 @@ Projeto de aplicação que utiliza o paradigma cliente-servidor e socket de rede
 
 <h2> INICIANDO A APLICAÇÃO </h2>
 
-Para o correto funcionamento da aplicação deve-se:
+<p>A aplicação é dependente das seguintes bibliotecas de python: socket; pyaudio; keyboard; threading, sys.</p>
+<p>Para o correto funcionamento da aplicação deve-se:</p>
 
 <li>Iniciar o servidor TCP (servidorTCP.py);
 <li>Iniciar um cliente TCP (controller.py).
