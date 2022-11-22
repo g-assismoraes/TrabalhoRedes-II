@@ -27,7 +27,6 @@ class ServidorRegistro():
             conn, addr = self.server.accept()
             thread = threading.Thread(target=self.serve_client, args=(conn, addr))
             thread.start()
-            print(f"[CONEXÕES ATIVAS] {threading.active_count()  - 1}")
 
     def serve_client(self, conn, addr):
         #metodo iniciado para servir as colicitacoes de um cliente:

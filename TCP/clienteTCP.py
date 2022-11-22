@@ -27,12 +27,22 @@ class ClientTCP():
         #envia a mensagem e espera a resposta
         message = msg.encode(self.FORMAT)
         self.client.send(message)
-        print(f"CLIENTE_TCP> Resposta do Servidor: {self.client.recv(self.BUFFER).decode(self.FORMAT)}")
+        resp = self.client.recv(self.BUFFER).decode(self.FORMAT)
+        print(f"CLIENTE_TCP> Resposta do Servidor: {resp}")
+    
+    def register(self):
+        self.client.send(f"REGISTER {self.name} {self.UDP_HOST} {self.UDP_PORT}".encode(self.FORMAT))
+        resp = self.client.recv(self.BUFFER).decode(self.FORMAT)
+        print(f"CLIENTE_TCP> Resposta do Servidor: {resp}")
+        if '[FALHA NO REGISTRO]' in resp:
+            print("Inicie novamente com um usuário novo!")
+            return False
+        return True
     
     def close(self):
         #envia mensagem ao servidorTCP para de desconectar
         self.send(f"DISCONNECT {self.name}")
-       
+
     def fetchOtherUserAdress(self, name):
         #envia mensagem solicitando o endereço
         if name != self.name: #nao deixa ligar pra si mesmo
